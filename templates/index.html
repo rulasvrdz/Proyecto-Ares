@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ares</title>
+</head>
+<body>
+    <h1>Ares</h1>
+    <form action="{{ url_for('recommend')}}" method="post">
+        <label for="tag">Tag</label>
+        <input type="text" name="tag" id="tag" placeholder="Ingresa el tag">
+        <label for="nei">Numero de emparejamientos</label>
+        <input type="number" name="nei" id="nei" placeholder="Ingresa el numero de emparejamientos" value="5">
+        
+        <button type="submit">Enviar</button>
+    </form>
+
+    {% for movie in res %}
+     <ul>
+        <li>{{movie['name']}} {{movie['tag']}} {{movie['simil']}}</li>
+     </ul>
+    {% endfor %}
+
+</body>
+</html>
