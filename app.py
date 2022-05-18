@@ -1,12 +1,8 @@
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.neighbors import NearestNeighbors
-from sklearn import preprocessing
 from fuzzywuzzy import process
+import pickle
 
 # Instances for FE
-labelE = preprocessing.LabelEncoder()
-scaler = MinMaxScaler()
 
 # Important functions
 def tagToIndex(i):
@@ -21,28 +17,14 @@ def listToTag(a,b):
         data.append({
             'name': df.iloc[[r]].name.values[0],
             'tag': df.iloc[[r]].tag.values[0],
-            'simil': 1-a[0][i+1] })
+            'simil': "{:.2f}".format((1-a[0][i+1])*100) })
     return data
 
-# Data Collection
-df = pd.read_csv('players.csv')
-
-# Feature Engineering
-df_r = df.drop(['name','name_clan','name_arena','tag'], axis = 1)
-
-df_r['tag_clan'] = df_r['tag_clan'].fillna('#NoClan')
-df_r['name_pais'] = labelE.fit_transform(df_r['name_pais'])
-df_r['tag_clan'] = labelE.fit_transform(df_r['tag_clan'])
-
-scaler.fit(df_r)
-values = scaler.transform(df_r)
-
-df_F = pd.DataFrame(values)
-df_F.columns = ['name_pais', 'rank', 'expLevel', 'trophies', 'tag_clan', 'id_arena']
+df_F=pd.read_pickle('finalDf.pkl')
+df=pd.read_pickle('originalDf.pkl')
 
  # Model
-neigh = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
-neigh.fit(df_F)
+neigh = pickle.load(open('KNN.sav', 'rb'))
 
 # Use Flask
 from flask import Flask, render_template, request
