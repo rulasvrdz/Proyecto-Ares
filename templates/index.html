@@ -1,27 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ares</title>
-</head>
-<body>
-    <h1>Ares</h1>
-    <form action="{{ url_for('recommend')}}" method="post">
-        <label for="tag">Tag</label>
-        <input type="text" name="tag" id="tag" placeholder="Ingresa el tag">
-        <label for="nei">Numero de emparejamientos</label>
-        <input type="number" name="nei" id="nei" placeholder="Ingresa el numero de emparejamientos" value="5">
-        
-        <button type="submit">Enviar</button>
-    </form>
 
-    {% for movie in res %}
-     <ul>
-        <li>{{movie['name']}} {{movie['tag']}} {{movie['simil']}}</li>
-     </ul>
-    {% endfor %}
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script>
+    tailwind.config = {
+
+      theme: {
+        extend: {
+          colors: {
+            umg: '#0c3a63',
+            umg2: '#ffb700',
+            umg3: '#2ea3f2'
+          }
+        }
+      }
+    }
+  </script>
+  <title>Ares</title>
+</head>
+
+<body>
+  <div class="min-h-screen bg-gradient-to-tl from-umg to-cyan-900 py-8 px-4 overflow-hidden sm:px-6 lg:px-4 lg:py-12">
+    <div class="relative max-w-xl mx-auto">
+      <svg class="absolute right-full top-0 transform -translate-x-1/2" width="404" height="404" fill="none"
+        viewBox="0 0 404 404" aria-hidden="true">
+        <defs>
+          <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x="0" y="0" width="20" height="20"
+            patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="4" height="4" class="text-umg2" fill="currentColor" />
+          </pattern>
+        </defs>
+        <rect width="404" height="404" fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
+      </svg>
+      <div class="text-center">
+        <h2 class="text-base font-semibold text-umg3 tracking-wide uppercase">Universidad Marista de Guadalajara</h2>
+        <p class="mt-1 text-4xl font-extrabold text-umg2 sm:text-5xl sm:tracking-tight lg:text-6xl">Proyecto Ares</p>
+        <p class="mt-4 text-lg leading-6 text-sky-400">Matchmaking</p>
+      </div>
+      <div class="mt-12">
+        <form action="{{ url_for('recommend')}}" method="POST" class="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
+          <div>
+            <label for="tag" class="block text-sm font-medium text-neutral-300">Tag</label>
+            <div class="mt-1">
+              <input type="text" name="tag" id="tag" placeholder="#1a35f6" value="#1a35f6"
+                class="bg-sky-50 py-3 px-4 block w-full shadow-sm focus:ring-sky-50 focus:bg-sky-200 border-gray-300 rounded-md">
+            </div>
+          </div>
+          <div>
+            <label for="nei" class="block text-sm font-medium text-sky-50">Numero de jugadores</label>
+            <div class="mt-1">
+              <input type="number" name="nei" id="nei" value="5"
+                class="bg-sky-50 py-3 px-4 block w-full shadow-sm focus:ring-text-sky-50 focus:bg-sky-200 border-gray-300 rounded-md">
+            </div>
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit"
+              class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-umg3 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-text-sky-50">Buscar</button>
+          </div>
+        </form>
+      </div>
+      <svg class="absolute left-full transform translate-x-1/2" width="404" height="404" fill="none"
+        viewBox="0 0 404 404" aria-hidden="true">
+        <defs>
+          <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x="0" y="0" width="20" height="20"
+            patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="4" height="4" class="text-text-sky-50" fill="currentColor" />
+          </pattern>
+        </defs>
+        <rect width="404" height="404" fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
+      </svg>
+      <div class="mt-10 bar overflow-auto h-64 max-h-64">
+        <dl class="grid grid-cols-3 gap-x-0 gap-y-8 ">
+          {% for movie in res %}
+            <div class="border-t-2 border-sky-50 pt-2">
+              <dt class="text-sm font-medium text-sky-50">Nombre</dt>
+              <dd class="text-lg font-extrabold tracking-tight text-sky-300">{{movie['name']}}</dd>
+            </div>
+            <div class="border-t-2 border-sky-50 pt-2">
+              <dt class="text-sm font-medium text-sky-50">Tag</dt>
+              <dd class="text-lg font-extrabold tracking-tight text-sky-300">{{movie['tag']}}</dd>
+            </div>
+            <div class="border-t-2 border-sky-50 pt-2">
+              <dt class="text-sm font-medium text-sky-50">Similitud</dt>
+              <dd class="text-lg font-extrabold tracking-tight text-sky-300">{{movie['simil']}}%</dd>
+            </div>
+          {% endfor %}
+        </dl>
+    </div>
+    
 
 </body>
+
 </html>
