@@ -68,6 +68,6 @@ def recommend():
 
     a, b = neigh.kneighbors(df_F.iloc[[id]], n_neighbors=n+1)
 
-    res = true_name
+    res = listToTag(a,b)
 
     return render_template('index.html', res = res)
